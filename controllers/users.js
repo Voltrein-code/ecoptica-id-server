@@ -6,6 +6,11 @@ const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
 
+require('dotenv').config();
+
+const { NODE_ENV } = process.env;
+const { JWT_SECRET } = NODE_ENV === 'production' ? process.env : require('../constants/config');
+
 module.exports.getUsers = (req, res, next) => {
   User.find([])
     .then((users) => {
@@ -97,7 +102,7 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       res.status(200).send({
-        token: jwt.sign({ _id: user._id }, 'ecoptica-secret', { expiresIn: '7d' }),
+        token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }),
       });
     })
     .catch(next);
