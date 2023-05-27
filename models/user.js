@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const isEmail = require('validator/lib/isEmail');
-// eslint-disable-next-line no-unused-vars
-const { default: validator } = require('validator');
 const UnauthorizesError = require('../errors/unauthorized-error');
 
 const userShema = new mongoose.Schema({
