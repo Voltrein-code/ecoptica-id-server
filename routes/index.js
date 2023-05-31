@@ -11,3 +11,5 @@ router.post('/signup', signUpValidation, createUser);
 router.use('/users', routesWithAuthValidation, auth, require('./users'));
 
 router.use('/', errorRouter);
+
+module.exports = router;
