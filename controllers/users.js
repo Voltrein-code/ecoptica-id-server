@@ -50,12 +50,21 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { name, email, password } = req.body;
+  const {
+    name,
+    surname,
+    patronymic,
+    organization,
+    position,
+    department,
+    email,
+    password,
+  } = req.body;
 
   bcrypt.hash(password, 10)
     .then((hash) => {
       User.create({
-        name, email, password: hash,
+        name, surname, patronymic, organization, position, department, email, password: hash,
       })
         .then((user) => {
           res.status(200).send(Object.assign(user, { password: undefined }));
@@ -75,10 +84,26 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  const { name } = req.body;
+  const {
+    name,
+    surname,
+    patronymic,
+    organization,
+    position,
+    department,
+    email,
+  } = req.body;
   const options = { runValidators: true, new: true };
 
-  User.findByIdAndUpdate(req.user._id, { name }, options)
+  User.findByIdAndUpdate(req.user._id, {
+    name,
+    surname,
+    patronymic,
+    organization,
+    position,
+    department,
+    email,
+  }, options)
     .orFail(() => new NotFoundError('Пользователь с указанный id не найден'))
     .then((updatedUser) => {
       res.status(200).send(updatedUser);

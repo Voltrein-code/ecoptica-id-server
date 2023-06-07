@@ -10,6 +10,36 @@ const userShema = new mongoose.Schema({
     maxlenght: 100,
     required: true,
   },
+  surname: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlenght: 100,
+  },
+  patronymic: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlenght: 100,
+  },
+  organization: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlenght: 150,
+  },
+  position: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlenght: 150,
+  },
+  department: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlenght: 150,
+  },
   email: {
     type: String,
     required: true,
