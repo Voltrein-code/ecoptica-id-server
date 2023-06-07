@@ -121,6 +121,35 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 
+module.exports.changePassword = (req, res, next) => {
+  const { password } = req.body;
+  const options = { runValidators: true, new: true };
+
+  bcrypt.hash(password, 10)
+    .then((hash) => {
+      User.findByIdAndUpdate(req.user._id, {
+        password: hash,
+      }, options)
+        .orFail(() => new NotFoundError('Пользователь с указанными id не найден'))
+        .then(() => {
+          res.status(200).send({
+            message: 'Пароль успешно изменен',
+          });
+        })
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            next(new BadRequestError('Передан некорректный id для обновления пароля пользователя'));
+            return;
+          }
+          if (err.name === 'ValidationError') {
+            next(new BadRequestError('Переданы некорректные данные для обновления пароля пользователя'));
+            return;
+          }
+          next(err);
+        });
+    });
+};
+
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
