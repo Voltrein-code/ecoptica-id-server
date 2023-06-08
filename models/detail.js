@@ -20,3 +20,5 @@ const detailSchema = mongoose.Schema({
     },
   },
 });
+
+module.exports = mongoose.model('detail', detailSchema);
